@@ -9,7 +9,7 @@ import { GqlAuthGuard } from './gql-auth.guard';
   imports: [
     forwardRef(() => UserModule),
     JwtModule.register({
-      secret: 'SECRET',
+      secret: process.env.JWT_TOKEN,
       //signOptions: { expiresIn: '60s' },
     }),
   ],

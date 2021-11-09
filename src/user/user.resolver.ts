@@ -7,9 +7,9 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { AuthService } from '../auth/auth.service';
 import { LoginInput } from './dto/login.input';
-import { LoginOutput } from './dto/login-output';
+import { LoginOutput } from './dto/login.output';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
-import { CurrentUser } from 'src/auth/current-user.decorator';
+import { CurrentUser } from '../auth/current-user.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -19,7 +19,6 @@ export class UserResolver {
   ) {}
 
   @Mutation(() => User)
-  @UseGuards(GqlAuthGuard)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }

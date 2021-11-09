@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { LoginOutput } from '../user/dto/login-output';
+import { LoginOutput } from '../user/dto/login.output';
 import { LoginInput } from '../user/dto/login.input';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
@@ -13,14 +13,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser({ username, password }: LoginInput): Promise<LoginOutput> {
-    const user = await this.userService.findOne(null, username);
+  async validateUser({ email, password }: LoginInput): Promise<LoginOutput> {
+    const user = await this.userService.findOne(null, email);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
     if (await user.comparePassword(password)) {
       const token = this.jwtService.sign({
-        name: user.name,
+        name: user.fullName,
         sub: user.id,
       });
       return { token };

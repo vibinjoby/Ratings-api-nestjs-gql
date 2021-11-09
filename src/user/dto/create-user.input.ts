@@ -1,15 +1,19 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsAlpha } from 'class-validator';
+import { IsEmail } from 'class-validator';
+import { userType } from '../entities/user.entity';
 
 @InputType()
 export class CreateUserInput {
   @Field()
-  @IsAlpha()
-  username: string;
+  @IsEmail()
+  email: string;
 
   @Field()
-  name: string;
+  fullName: string;
 
   @Field()
   password: string;
+
+  @Field()
+  userType: userType;
 }

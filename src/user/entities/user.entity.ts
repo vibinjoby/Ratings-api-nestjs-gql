@@ -1,7 +1,19 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import * as bcrypt from 'bcryptjs';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Restaurant } from 'src/restaurant/entities/restaurant.entity';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+export enum userType {
+  OWNER = 'owner',
+  CUSTOMER = 'customer',
+}
 @ObjectType()
 @Entity()
 export class User {
@@ -11,15 +23,24 @@ export class User {
 
   @Field()
   @Column()
-  name: string;
+  fullName: string;
 
   @Field()
   @Column()
-  username: string;
+  email: string;
 
   @Field()
   @Column()
   password: string;
+
+  @Field()
+  @Column()
+  userType: userType;
+
+  @OneToMany(() => Restaurant, (restaurant) => restaurant.user)
+  @Field(() => [Restaurant], { nullable: true })
+  @JoinColumn()
+  restaurants?: Restaurant[];
 
   @BeforeInsert()
   async hashPassword() {
