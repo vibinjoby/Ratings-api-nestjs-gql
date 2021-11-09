@@ -17,7 +17,7 @@ export class UserService {
   }
 
   findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['restaurants', 'reviews'] });
   }
 
   findOne(id?: number, email?: string): Promise<User> {
@@ -28,6 +28,7 @@ export class UserService {
         },
         { email },
       ],
+      relations: ['restaurants', 'reviews'],
     });
   }
 

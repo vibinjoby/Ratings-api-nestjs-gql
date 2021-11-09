@@ -1,12 +1,14 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
   Column,
-  CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Review } from '../../review/entities/review.entity';
 import { User } from '../../user/entities/user.entity';
 
 @ObjectType()
@@ -29,18 +31,31 @@ export class Restaurant {
   contactNumber: number;
 
   @Field()
-  @Column({ type: 'float' })
+  @Column({ type: 'float', default: 0.0 })
   averageRatings: number;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   lastEdited: Date;
 
   @Field()
-  @CreateDateColumn({ type: 'date', default: 'NOW()' })
+  @Column({
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+    type: 'datetime',
+  })
   createdAt: Date;
+
+  @Column()
+  @Field(() => Int)
+  userId: number;
 
   @ManyToOne(() => User, (user) => user.restaurants)
   @Field(() => User)
   user: User;
+
+  @OneToMany(() => Review, (review) => review.user)
+  @Field(() => [Review], { nullable: true })
+  @JoinColumn()
+  reviews?: Review[];
 }

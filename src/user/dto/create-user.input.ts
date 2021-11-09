@@ -1,6 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsEmail } from 'class-validator';
-import { userType } from '../entities/user.entity';
+
+import { UserType } from '../entities/user.entity';
 
 @InputType()
 export class CreateUserInput {
@@ -14,6 +15,6 @@ export class CreateUserInput {
   @Field()
   password: string;
 
-  @Field()
-  userType: userType;
+  @Field(() => UserType)
+  userType: UserType;
 }

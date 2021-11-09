@@ -1,6 +1,5 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 import * as bcrypt from 'bcryptjs';
-import { Restaurant } from 'src/restaurant/entities/restaurant.entity';
 import {
   BeforeInsert,
   Column,
@@ -10,10 +9,18 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-export enum userType {
-  OWNER = 'owner',
-  CUSTOMER = 'customer',
+import { Restaurant } from '../../restaurant/entities/restaurant.entity';
+import { Review } from '../../review/entities/review.entity';
+
+export enum UserType {
+  owner = 'owner',
+  customer = 'customer',
 }
+
+registerEnumType(UserType, {
+  name: 'UserType',
+});
+
 @ObjectType()
 @Entity()
 export class User {
@@ -33,14 +40,27 @@ export class User {
   @Column()
   password: string;
 
-  @Field()
-  @Column()
-  userType: userType;
+  @Column({ type: 'varchar' })
+  @Field(() => UserType)
+  userType: UserType;
 
   @OneToMany(() => Restaurant, (restaurant) => restaurant.user)
   @Field(() => [Restaurant], { nullable: true })
   @JoinColumn()
   restaurants?: Restaurant[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  @Field(() => [Review], { nullable: true })
+  @JoinColumn()
+  reviews?: Review[];
+
+  @Field()
+  @Column({
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+    type: 'datetime',
+  })
+  createdAt: Date;
 
   @BeforeInsert()
   async hashPassword() {

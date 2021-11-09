@@ -7,6 +7,9 @@ require('dotenv').config();
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { ReviewModule } from './review/review.module';
+import { AdminService } from './admin/admin.service';
+import { AdminResolver } from './admin/admin.resolver';
 
 @Module({
   imports: [
@@ -22,8 +25,9 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     UserModule,
     AuthModule,
     RestaurantModule,
+    ReviewModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AdminService, AdminResolver],
 })
 export class AppModule {}

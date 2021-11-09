@@ -2,15 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Restaurant {
+type Review {
   id: Int!
-  restaurantName: String!
-  address: String!
-  contactNumber: Float!
-  averageRatings: Float!
-  lastEdited: DateTime!
+  ratings: Float!
+  visitDate: DateTime!
+  comments: String!
+  ownerReply: String
+  lastEdited: DateTime
   createdAt: DateTime!
+  userId: Int!
+  restaurantId: Int!
   user: User!
+  restaurant: Restaurant!
 }
 
 """
@@ -18,13 +21,33 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Restaurant {
+  id: Int!
+  restaurantName: String!
+  address: String!
+  contactNumber: Float!
+  averageRatings: Float!
+  lastEdited: DateTime
+  createdAt: DateTime!
+  userId: Int!
+  user: User!
+  reviews: [Review!]
+}
+
 type User {
   id: Int!
   fullName: String!
   email: String!
   password: String!
-  userType: String!
+  userType: UserType!
   restaurants: [Restaurant!]
+  reviews: [Review!]
+  createdAt: DateTime!
+}
+
+enum UserType {
+  owner
+  customer
 }
 
 type LoginOutput {
@@ -36,6 +59,7 @@ type Query {
   user(id: Float!): User!
   whoAmI: User!
   restaurant(id: Int!): Restaurant!
+  review(id: Int!): Review!
 }
 
 type Mutation {
@@ -46,20 +70,23 @@ type Mutation {
   createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
   updateRestaurant(updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
   removeRestaurant(id: Int!): Restaurant!
+  createReview(createReviewInput: CreateReviewInput!): Review!
+  updateReview(updateReviewInput: UpdateReviewInput!): Review!
+  removeReview(id: Int!): Review!
 }
 
 input CreateUserInput {
   email: String!
   fullName: String!
   password: String!
-  userType: String!
+  userType: UserType!
 }
 
 input UpdateUserInput {
-  email: String
-  fullName: String
-  password: String
-  userType: String
+  email: String!
+  fullName: String!
+  password: String!
+  userType: String!
   id: Int!
 }
 
@@ -69,12 +96,29 @@ input LoginInput {
 }
 
 input CreateRestaurantInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  restaurantName: String!
+  address: String!
+  contactNumber: Float!
 }
 
 input UpdateRestaurantInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  restaurantName: String!
+  address: String!
+  contactNumber: Float!
+  id: Int!
+}
+
+input CreateReviewInput {
+  ratings: Float!
+  visitDate: DateTime!
+  comments: String!
+  restaurantId: Int!
+}
+
+input UpdateReviewInput {
+  ratings: Float!
+  visitDate: DateTime!
+  comments: String!
+  restaurantId: Int
   id: Int!
 }
