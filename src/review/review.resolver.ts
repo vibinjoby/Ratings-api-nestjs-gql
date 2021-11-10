@@ -6,8 +6,10 @@ import { Review } from './entities/review.entity';
 import { CreateReviewInput } from './dto/create-review.input';
 import { UpdateReviewInput } from './dto/update-review.input';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '../user/entities/user.entity';
+import { Roles } from 'src/auth/roles.decorator';
+import { Role } from 'src/auth/roles.enum';
 
 @Resolver(() => Review)
 export class ReviewResolver {
@@ -34,6 +36,7 @@ export class ReviewResolver {
     return this.reviewService.findOne(id);
   }
 
+  @Roles(Role.Admin, Role.User)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Review)
   updateReview(
@@ -42,6 +45,7 @@ export class ReviewResolver {
     return this.reviewService.update(updateReviewInput.id, updateReviewInput);
   }
 
+  @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Review)
   removeReview(@Args('id', { type: () => Int }) id: number) {

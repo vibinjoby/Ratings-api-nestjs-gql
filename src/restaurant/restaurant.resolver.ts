@@ -6,8 +6,10 @@ import { Restaurant } from './entities/restaurant.entity';
 import { CreateRestaurantInput } from './dto/create-restaurant.input';
 import { UpdateRestaurantInput } from './dto/update-restaurant.input';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { User } from '../user/entities/user.entity';
+import { Roles } from 'src/auth/roles.decorator';
+import { Role } from 'src/auth/roles.enum';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
@@ -45,6 +47,7 @@ export class RestaurantResolver {
     );
   }
 
+  @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Restaurant)
   removeRestaurant(@Args('id', { type: () => Int }) id: number) {

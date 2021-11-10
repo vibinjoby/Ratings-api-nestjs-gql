@@ -5,13 +5,19 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
+import { ROLES_KEY } from './roles.decorator';
+import { Role } from './roles.enum';
 
 @Injectable()
 export class GqlAuthGuard implements CanActivate {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private reflector: Reflector,
+  ) {}
 
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
@@ -19,6 +25,13 @@ export class GqlAuthGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (!requiredRoles) {
+      return true;
+    }
     const req = this.getRequest(context);
     const authHeader = req.headers.authorization as string;
 
@@ -31,7 +44,14 @@ export class GqlAuthGuard implements CanActivate {
         `Authentication type \'Bearer\' required. Found \'${type}\'`,
       );
     }
-    const { isValid, user } = await this.authService.validateToken(token);
+    const { isValid, user, isAdmin } = await this.authService.validateToken(
+      token,
+    );
+
+    // Check for admin protected resolvers
+    if (requiredRoles.includes(Role.Admin) && !isAdmin) {
+      return false;
+    }
 
     if (isValid) {
       req.user = user;

@@ -10,6 +10,8 @@ import { LoginInput } from './dto/login.input';
 import { LoginOutput } from './dto/login.output';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../auth/roles.enum';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -23,24 +25,30 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
   findAll() {
     return this.userService.findAll();
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
   findOne(@Args('id') id: number) {
     return this.userService.findOne(id);
   }
 
-  @Mutation(() => User)
+  // Admin protected resolver
+  @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
+  @Mutation(() => User)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update(updateUserInput.id, updateUserInput);
   }
 
+  // Admin protected resolver
+  @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => User)
+  @Mutation(() => String)
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove(id);
   }

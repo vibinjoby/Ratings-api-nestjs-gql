@@ -5,13 +5,25 @@ import { LoginOutput } from '../user/dto/login.output';
 import { LoginInput } from '../user/dto/login.input';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
+import { AdminService } from '../admin/admin.service';
+import { CreateAdminInput } from '../admin/dto/create-admin.input';
+import { Admin } from '../admin/entities/admin.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private adminService: AdminService,
   ) {}
+
+  generateToken = ({ user, isAdmin }: { user: any; isAdmin: boolean }) => {
+    return this.jwtService.sign({
+      name: isAdmin ? user.username : user.fullName,
+      sub: user.id,
+      isAdmin,
+    });
+  };
 
   async validateUser({ email, password }: LoginInput): Promise<LoginOutput> {
     const user = await this.userService.findOne(null, email);
@@ -19,10 +31,22 @@ export class AuthService {
       throw new UnauthorizedException('User not found');
     }
     if (await user.comparePassword(password)) {
-      const token = this.jwtService.sign({
-        name: user.fullName,
-        sub: user.id,
-      });
+      const token = this.generateToken({ user, isAdmin: false });
+      return { token };
+    }
+    throw new UnauthorizedException('Incorrect credentials');
+  }
+
+  async validateAdmin({
+    username,
+    password,
+  }: CreateAdminInput): Promise<LoginOutput> {
+    const user = await this.adminService.findOne(null, username);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    if (await user.comparePassword(password)) {
+      const token = this.generateToken({ user, isAdmin: true });
       return { token };
     }
     throw new UnauthorizedException('Incorrect credentials');
@@ -30,11 +54,17 @@ export class AuthService {
 
   async validateToken(
     token: string,
-  ): Promise<{ isValid: boolean; user?: User }> {
+  ): Promise<{ isValid: boolean; user?: User | Admin; isAdmin?: boolean }> {
     try {
-      const { sub } = this.jwtService.verify(token);
+      const { sub, isAdmin } = this.jwtService.verify(token);
+      if (isAdmin)
+        return {
+          isValid: true,
+          user: await this.adminService.findOne(sub),
+          isAdmin: true,
+        };
       const user = await this.userService.findOne(sub);
-      return { user, isValid: true };
+      return { user, isValid: true, isAdmin: false };
     } catch (e) {
       return { isValid: false };
     }

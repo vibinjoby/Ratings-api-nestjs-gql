@@ -8,8 +8,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { ReviewModule } from './review/review.module';
-import { AdminService } from './admin/admin.service';
-import { AdminResolver } from './admin/admin.resolver';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -26,8 +25,9 @@ import { AdminResolver } from './admin/admin.resolver';
     AuthModule,
     RestaurantModule,
     ReviewModule,
+    AdminModule,
   ],
   controllers: [],
-  providers: [AdminService, AdminResolver],
+  providers: [],
 })
 export class AppModule {}

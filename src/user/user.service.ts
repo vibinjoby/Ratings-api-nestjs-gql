@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -32,11 +32,21 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput): Promise<UpdateResult> {
-    return this.userRepository.update(id, updateUserInput);
+  async update(id: number, updateUserInput: UpdateUserInput): Promise<User> {
+    await this.userRepository.update(id, updateUserInput);
+    const updatedUser = await this.userRepository.findOne(id);
+    return updatedUser;
   }
 
-  remove(id: number): Promise<DeleteResult> {
-    return this.userRepository.delete(id);
+  async remove(id: number): Promise<String> {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      return 'User not available';
+    }
+    if (await this.userRepository.delete(id)) {
+      return 'User deleted successfully';
+    }
+    return 'User not deleted';
   }
 }

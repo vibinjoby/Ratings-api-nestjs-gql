@@ -50,6 +50,13 @@ enum UserType {
   customer
 }
 
+type Admin {
+  id: Int!
+  username: String!
+  password: String!
+  createdAt: DateTime!
+}
+
 type LoginOutput {
   token: String!
 }
@@ -65,8 +72,10 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(id: Int!): String!
   login(data: LoginInput!): LoginOutput!
+  createAdmin(createAdminInput: CreateAdminInput!): Admin!
+  loginAsAdmin(data: CreateAdminInput!): LoginOutput!
   createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
   updateRestaurant(updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
   removeRestaurant(id: Int!): Restaurant!
@@ -92,6 +101,11 @@ input UpdateUserInput {
 
 input LoginInput {
   email: String!
+  password: String!
+}
+
+input CreateAdminInput {
+  username: String!
   password: String!
 }
 
