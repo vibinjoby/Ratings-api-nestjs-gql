@@ -1,9 +1,9 @@
-import { MOCK_USER } from '../../review/tests/factory';
-import { CreateRestaurantInput } from '../dto/create-restaurant.input';
-import { Restaurant } from '../entities/restaurant.entity';
+import { MOCK_USER } from '../../review/tests/factory'
+import { CreateRestaurantInput } from '../dto/create-restaurant.input'
+import { Restaurant } from '../entities/restaurant.entity'
 
 export const RestaurantServiceFactory = () => ({
-  create: (_: CreateRestaurantInput) => MOCK_RESTAURANT,
+  create: () => MOCK_RESTAURANT,
   findAll: () => [
     {
       ...MOCK_RESTAURANT,
@@ -13,7 +13,7 @@ export const RestaurantServiceFactory = () => ({
     ...MOCK_RESTAURANT,
     id,
   }),
-});
+})
 
 export const RestaurantRepositoryFactory = () => ({
   create: (input: CreateRestaurantInput) => ({
@@ -33,7 +33,7 @@ export const RestaurantRepositoryFactory = () => ({
     ...MOCK_RESTAURANT,
     id: 100,
   }),
-});
+})
 
 export const MOCK_RESTAURANT: Restaurant = {
   id: 1,
@@ -45,4 +45,4 @@ export const MOCK_RESTAURANT: Restaurant = {
   createdAt: new Date(),
   userId: 1,
   user: MOCK_USER,
-};
+}

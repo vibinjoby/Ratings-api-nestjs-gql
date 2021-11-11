@@ -1,18 +1,18 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsDate } from 'class-validator';
+import { InputType, Int, Field } from '@nestjs/graphql'
+import { IsDate } from 'class-validator'
 
 @InputType()
 export class CreateReviewInput {
   @Field()
-  ratings: number;
+  ratings: number
 
   @Field()
   @IsDate()
-  visitDate: Date;
+  visitDate: Date
 
   @Field()
-  comments: string;
+  comments: string
 
   @Field(() => Int)
-  restaurantId: number;
+  restaurantId: number
 }

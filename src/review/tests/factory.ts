@@ -1,6 +1,6 @@
-import { User } from '../../user/entities/user.entity';
-import { MOCK_USER_DATA } from '../../user/tests/factory';
-import { CreateReviewInput } from '../dto/create-review.input';
+import { User } from '../../user/entities/user.entity'
+import { MOCK_USER_DATA } from '../../user/tests/factory'
+import { CreateReviewInput } from '../dto/create-review.input'
 
 export const ReviewServiceFactory = () => ({
   create: () => ({
@@ -18,7 +18,7 @@ export const ReviewServiceFactory = () => ({
     id,
     ...MOCK_REVIEW,
   }),
-});
+})
 
 export const ReviewRepositoryFactory = () => ({
   create: (review: CreateReviewInput) => ({
@@ -39,19 +39,19 @@ export const ReviewRepositoryFactory = () => ({
     ...MOCK_REVIEW,
     id: 1,
   }),
-});
+})
 
 export const MOCK_REVIEW = {
   restaurantId: 1,
   comments: '',
   ratings: 1,
   visitDate: new Date(),
-};
+}
 
 export const MOCK_USER: User = {
   ...MOCK_USER_DATA,
-  hashPassword: () => new Promise(() => {}),
+  hashPassword: () => new Promise(() => console.log('promise')),
   id: 1,
   createdAt: new Date(),
-  comparePassword: () => new Promise(() => {}),
-};
+  comparePassword: () => new Promise(() => console.log('promise')),
+}

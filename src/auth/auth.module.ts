@@ -1,10 +1,10 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { forwardRef, Module } from '@nestjs/common'
+import { JwtModule } from '@nestjs/jwt'
 
-import { AuthService } from './auth.service';
-import { UserModule } from '../user/user.module';
-import { GqlAuthGuard } from './gql-auth.guard';
-import { AdminModule } from '../admin/admin.module';
+import { AuthService } from './auth.service'
+import { UserModule } from '../user/user.module'
+import { GqlAuthGuard } from './gql-auth.guard'
+import { AdminModule } from '../admin/admin.module'
 
 @Module({
   imports: [

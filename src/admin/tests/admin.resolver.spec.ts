@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing'
 
-import { AuthService } from '../../auth/auth.service';
-import { AdminResolver } from '../admin.resolver';
-import { AdminService } from '../admin.service';
-import { AdminServiceFactory, MOCK_ADMIN } from './factory';
+import { AuthService } from '../../auth/auth.service'
+import { AdminResolver } from '../admin.resolver'
+import { AdminService } from '../admin.service'
+import { AdminServiceFactory, MOCK_ADMIN } from './factory'
 
 describe('AdminResolver', () => {
-  let resolver: AdminResolver;
+  let resolver: AdminResolver
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,28 +19,26 @@ describe('AdminResolver', () => {
         {
           provide: AuthService,
           useFactory: () => ({
-            validateAdmin: (_) => new Promise(() => ({ token: 'TOKEN' })),
+            validateAdmin: () => new Promise(() => ({ token: 'TOKEN' })),
           }),
         },
       ],
-    }).compile();
+    }).compile()
 
-    resolver = module.get<AdminResolver>(AdminResolver);
-  });
+    resolver = module.get<AdminResolver>(AdminResolver)
+  })
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined();
-  });
+    expect(resolver).toBeDefined()
+  })
 
   it('should create new admin', () => {
-    expect(
-      resolver.createAdmin({ username: 'admin', password: 'admin' }),
-    ).toEqual(MOCK_ADMIN);
-  });
+    expect(resolver.createAdmin({ username: 'admin', password: 'admin' })).toEqual(MOCK_ADMIN)
+  })
 
   it('should validate admin', () => {
-    expect(
-      resolver.loginAsAdmin({ username: 'admin', password: 'admin' }),
-    ).toEqual(new Promise(() => ({ token: 'TOKEN' })));
-  });
-});
+    expect(resolver.loginAsAdmin({ username: 'admin', password: 'admin' })).toEqual(
+      new Promise(() => ({ token: 'TOKEN' }))
+    )
+  })
+})

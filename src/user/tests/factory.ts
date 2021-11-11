@@ -1,12 +1,12 @@
-import { CreateUserInput } from '../dto/create-user.input';
-import { UserType } from '../entities/user.entity';
+import { CreateUserInput } from '../dto/create-user.input'
+import { UserType } from '../entities/user.entity'
 
 export const MOCK_USER_DATA = {
   fullName: 'cat',
   email: 'cat@gmail.com',
   userType: UserType.customer,
   password: '1390',
-};
+}
 
 export const UserServiceFactory = () => ({
   findAll: () => [
@@ -23,7 +23,7 @@ export const UserServiceFactory = () => ({
     id: 10,
     ...user,
   }),
-});
+})
 
 export const UserRepositoryFactory = () => ({
   find: () => [
@@ -44,4 +44,4 @@ export const UserRepositoryFactory = () => ({
     ...MOCK_USER_DATA,
     id: 1,
   }),
-});
+})

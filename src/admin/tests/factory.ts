@@ -1,8 +1,6 @@
-import { CreateAdminInput } from '../dto/create-admin.input';
-
 export const AdminServiceFactory = () => ({
-  create: (_: CreateAdminInput) => MOCK_ADMIN,
-});
+  create: () => MOCK_ADMIN,
+})
 
 export const AdminRepositoryFactory = () => ({
   create: () => ({
@@ -10,13 +8,13 @@ export const AdminRepositoryFactory = () => ({
   }),
   findOne: (id: number) => new Promise(() => ({ ...MOCK_ADMIN, id })),
   save: () => ({ ...MOCK_ADMIN }),
-});
+})
 
 export const MOCK_ADMIN = {
   username: '',
   password: '',
-  hashPassword: () => new Promise(() => {}),
+  hashPassword: () => new Promise(() => ({})),
   id: 1,
   createdAt: new Date(),
-  comparePassword: () => new Promise(() => {}),
-};
+  comparePassword: () => new Promise(() => ({})),
+}

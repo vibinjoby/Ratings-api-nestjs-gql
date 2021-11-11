@@ -1,14 +1,13 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsPhoneNumber } from 'class-validator';
+import { InputType, Field } from '@nestjs/graphql'
 
 @InputType()
 export class CreateRestaurantInput {
   @Field()
-  restaurantName: string;
+  restaurantName: string
 
   @Field()
-  address: string;
+  address: string
 
   @Field()
-  contactNumber: number;
+  contactNumber: number
 }

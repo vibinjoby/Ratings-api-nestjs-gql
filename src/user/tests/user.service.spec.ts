@@ -1,16 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Test, TestingModule } from '@nestjs/testing'
+import { getRepositoryToken } from '@nestjs/typeorm'
 
-import { User } from '../entities/user.entity';
-import { UserService } from '../user.service';
-import { MOCK_USER_DATA, UserRepositoryFactory } from './factory';
+import { User } from '../entities/user.entity'
+import { UserService } from '../user.service'
+import { MOCK_USER_DATA, UserRepositoryFactory } from './factory'
 
-export const repositoryMockFactory = UserRepositoryFactory();
+export const repositoryMockFactory = UserRepositoryFactory()
 
 describe('UserService', () => {
-  let service: UserService;
-  let repo: Repository<User>;
+  let service: UserService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,15 +19,14 @@ describe('UserService', () => {
           useValue: repositoryMockFactory,
         },
       ],
-    }).compile();
+    }).compile()
 
-    service = module.get<UserService>(UserService);
-    repo = module.get<Repository<User>>(getRepositoryToken(User));
-  });
+    service = module.get<UserService>(UserService)
+  })
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+    expect(service).toBeDefined()
+  })
 
   it('should get the users array', () => {
     expect(service.findAll()).toEqual([
@@ -37,8 +34,8 @@ describe('UserService', () => {
         ...MOCK_USER_DATA,
         id: 1,
       },
-    ]);
-  });
+    ])
+  })
 
   it('should get one user', () => {
     expect(service.findOne(500)).toEqual({
@@ -52,17 +49,17 @@ describe('UserService', () => {
           { email: undefined },
         ],
       },
-    });
-  });
+    })
+  })
 
   it('should create new user', () => {
     expect(
       service.create({
         ...MOCK_USER_DATA,
-      }),
+      })
     ).toEqual({
       ...MOCK_USER_DATA,
       id: 1,
-    });
-  });
-});
+    })
+  })
+})

@@ -1,14 +1,15 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
-require('dotenv').config();
+import { Module } from '@nestjs/common'
+import { GraphQLModule } from '@nestjs/graphql'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { join } from 'path'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
 
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { RestaurantModule } from './restaurant/restaurant.module';
-import { ReviewModule } from './review/review.module';
-import { AdminModule } from './admin/admin.module';
+import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
+import { RestaurantModule } from './restaurant/restaurant.module'
+import { ReviewModule } from './review/review.module'
+import { AdminModule } from './admin/admin.module'
 
 @Module({
   imports: [

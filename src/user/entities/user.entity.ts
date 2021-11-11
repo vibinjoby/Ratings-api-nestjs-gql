@@ -1,16 +1,9 @@
-import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
-import * as bcrypt from 'bcryptjs';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  JoinColumn,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql'
+import * as bcrypt from 'bcryptjs'
+import { BeforeInsert, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Restaurant } from '../../restaurant/entities/restaurant.entity';
-import { Review } from '../../review/entities/review.entity';
+import { Restaurant } from '../../restaurant/entities/restaurant.entity'
+import { Review } from '../../review/entities/review.entity'
 
 export enum UserType {
   owner = 'owner',
@@ -19,40 +12,40 @@ export enum UserType {
 
 registerEnumType(UserType, {
   name: 'UserType',
-});
+})
 
 @ObjectType()
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
-  id: number;
+  id: number
 
   @Field()
   @Column()
-  fullName: string;
+  fullName: string
 
   @Field()
   @Column()
-  email: string;
+  email: string
 
   @Field()
   @Column()
-  password: string;
+  password: string
 
   @Column({ type: 'varchar' })
   @Field(() => UserType)
-  userType: UserType;
+  userType: UserType
 
-  @OneToMany(() => Restaurant, (restaurant) => restaurant.user)
+  @OneToMany(() => Restaurant, restaurant => restaurant.user)
   @Field(() => [Restaurant], { nullable: true })
   @JoinColumn()
-  restaurants?: Restaurant[];
+  restaurants?: Restaurant[]
 
-  @OneToMany(() => Review, (review) => review.user)
+  @OneToMany(() => Review, review => review.user)
   @Field(() => [Review], { nullable: true })
   @JoinColumn()
-  reviews?: Review[];
+  reviews?: Review[]
 
   @Field()
   @Column({
@@ -60,14 +53,14 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
     type: 'datetime',
   })
-  createdAt: Date;
+  createdAt: Date
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 10)
   }
 
   async comparePassword(attempt: string): Promise<boolean> {
-    return await bcrypt.compare(attempt, this.password);
+    return await bcrypt.compare(attempt, this.password)
   }
 }

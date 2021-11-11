@@ -1,20 +1,20 @@
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
-import { IsDateString } from 'class-validator';
+import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { IsDateString } from 'class-validator'
 
-import { CreateReviewInput } from './create-review.input';
+import { CreateReviewInput } from './create-review.input'
 
 @InputType()
 export class UpdateReviewInput extends PartialType(CreateReviewInput) {
   @Field(() => Int)
-  id: number;
+  id: number
 
   @Field()
-  ratings: number;
+  ratings: number
 
   @Field()
   @IsDateString()
-  visitDate: Date;
+  visitDate: Date
 
   @Field()
-  comments: string;
+  comments: string
 }

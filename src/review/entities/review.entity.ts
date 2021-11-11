@@ -1,35 +1,35 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Restaurant } from '../../restaurant/entities/restaurant.entity';
-import { User } from '../../user/entities/user.entity';
+import { Restaurant } from '../../restaurant/entities/restaurant.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Entity()
 @ObjectType()
 export class Review {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
-  id: number;
+  id: number
 
   @Field()
   @Column()
-  ratings: number;
+  ratings: number
 
   @Field()
   @Column()
-  visitDate: Date;
+  visitDate: Date
 
   @Field()
   @Column()
-  comments: string;
+  comments: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  ownerReply?: string;
+  ownerReply?: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  lastEdited?: Date;
+  lastEdited?: Date
 
   @Field()
   @Column({
@@ -37,21 +37,21 @@ export class Review {
     default: () => 'CURRENT_TIMESTAMP',
     type: 'datetime',
   })
-  createdAt: Date;
+  createdAt: Date
 
   @Field(() => Int)
   @Column()
-  userId: number;
+  userId: number
 
   @Field(() => Int)
   @Column()
-  restaurantId: number;
+  restaurantId: number
 
-  @ManyToOne(() => User, (user) => user.reviews)
+  @ManyToOne(() => User, user => user.reviews)
   @Field(() => User)
-  user: User;
+  user: User
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews)
+  @ManyToOne(() => Restaurant, restaurant => restaurant.reviews)
   @Field(() => Restaurant)
-  restaurant: Restaurant;
+  restaurant: Restaurant
 }
