@@ -8,8 +8,8 @@ import { UpdateReviewInput } from './dto/update-review.input';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { User } from '../user/entities/user.entity';
-import { Roles } from 'src/auth/roles.decorator';
-import { Role } from 'src/auth/roles.enum';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../auth/roles.enum';
 
 @Resolver(() => Review)
 export class ReviewResolver {
