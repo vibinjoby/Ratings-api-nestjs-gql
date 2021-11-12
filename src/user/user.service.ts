@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
@@ -18,8 +18,8 @@ export class UserService {
     return this.userRepository.find({ relations: ['restaurants', 'reviews'] })
   }
 
-  findOne(id?: number, email?: string): Promise<User> {
-    return this.userRepository.findOne({
+  async findOne(id?: number, email?: string): Promise<User> {
+    const user = await this.userRepository.findOne({
       where: [
         {
           id,
@@ -28,6 +28,8 @@ export class UserService {
       ],
       relations: ['restaurants', 'reviews'],
     })
+    if (!user) throw new NotFoundException(`No user with id ${id} found`)
+    return user
   }
 
   async update(id: number, updateUserInput: UpdateUserInput): Promise<User> {

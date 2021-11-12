@@ -38,18 +38,20 @@ describe('UserService', () => {
   })
 
   it('should get one user', () => {
-    expect(service.findOne(500)).toEqual({
-      ...MOCK_USER_DATA,
-      id: {
-        relations: ['restaurants', 'reviews'],
-        where: [
-          {
-            id: 500,
-          },
-          { email: undefined },
-        ],
-      },
-    })
+    expect(service.findOne(500)).toEqual(
+      new Promise(() => ({
+        ...MOCK_USER_DATA,
+        id: {
+          relations: ['restaurants', 'reviews'],
+          where: [
+            {
+              id: 500,
+            },
+            { email: undefined },
+          ],
+        },
+      }))
+    )
   })
 
   it('should create new user', () => {

@@ -1,9 +1,8 @@
 {
   "name": "ratings-api-gql",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "description": "Backend repository for the Ratings-app",
+  "author": "Vibin Joby <vibin2joby@gmail.com>",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
