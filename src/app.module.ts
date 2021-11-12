@@ -15,6 +15,7 @@ import { AdminModule } from './admin/admin.module'
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      playground: true,
     }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
