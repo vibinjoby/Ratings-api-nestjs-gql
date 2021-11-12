@@ -5,31 +5,29 @@ name: code-check CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Yarn Setup
-      uses: DerYeger/yarn-setup-action@v1.0.1
-      
-    - uses: actions/checkout@v2
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-        
-    - run: yarn prettier
-    - run: yarn lint
-    - run: yarn build
-    - run: yarn test
+      - name: Yarn Setup
+        uses: DerYeger/yarn-setup-action@v1.0.1
+
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - run: yarn lint
+      - run: yarn build
+      - run: yarn test
