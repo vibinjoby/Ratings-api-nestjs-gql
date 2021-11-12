@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettify": "yarn prettier --write",
-    "prettifile": "prettier --ignore-path .gitignore --write"
+    "prettifile": "prettier --ignore-path .gitignore --write",
+    "postinstall": "yarn build"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
