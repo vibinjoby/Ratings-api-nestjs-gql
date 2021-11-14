@@ -20,9 +20,6 @@ export class GqlAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ])
-    if (!requiredRoles) {
-      return true
-    }
     const req = this.getRequest(context)
     const authHeader = req.headers.authorization as string
 
@@ -36,7 +33,7 @@ export class GqlAuthGuard implements CanActivate {
     const { isValid, user, isAdmin } = await this.authService.validateToken(token)
 
     // Check for admin protected resolvers
-    if (requiredRoles.includes(Role.Admin) && !isAdmin) {
+    if (requiredRoles?.includes(Role.Admin) && !isAdmin) {
       return false
     }
 
