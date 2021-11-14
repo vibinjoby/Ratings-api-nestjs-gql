@@ -31,6 +31,11 @@ jobs:
       - name: Lint
         run: yarn lint
 
+      - name: create env file
+        run: |
+          touch .env
+          echo JWT_TOKEN =${{ secrets.JWT_TOKEN }} >> .env
+
       - name: Unit tests
         run: yarn test # unit tests
 
