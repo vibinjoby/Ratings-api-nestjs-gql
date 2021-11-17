@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeleteResult, Repository, UpdateResult } from 'typeorm'
 
@@ -15,6 +15,20 @@ export class ReviewService {
     const newReview = this.reviewRepository.create(createReviewInput)
     newReview.userId = user.id
     return this.reviewRepository.save(newReview)
+  }
+
+  async addOwnerReply(ownerReply: string, reviewId: number): Promise<Review> {
+    const review = await this.reviewRepository.findOne(reviewId)
+    if (!review) throw new NotFoundException(`No reviews with id ${reviewId} found`)
+
+    review.ownerReply = ownerReply
+    return this.reviewRepository.save(review)
+  }
+
+  getRestaurantWithReviewById = async (restaurantId: number): Promise<any> => {
+    const review = await this.reviewRepository.findOne({ where: [{ restaurantId }], relations: ['restaurant', 'user'] })
+
+    return review
   }
 
   findAll(): Promise<Review[]> {

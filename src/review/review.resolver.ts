@@ -22,6 +22,18 @@ export class ReviewResolver {
   }
 
   @UseGuards(GqlAuthGuard)
+  @Mutation(() => Review)
+  createOwnerReply(@Args('ownerReply') ownerReply: string, @Args('reviewId', { type: () => Int }) reviewId: number) {
+    return this.reviewService.addOwnerReply(ownerReply, reviewId)
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Review)
+  getRestaurantWithReview(@Args('restaurantId', { type: () => Int }) restaurantId: number) {
+    return this.reviewService.getRestaurantWithReviewById(restaurantId)
+  }
+
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Review], { name: 'review' })
   findAll() {
     return this.reviewService.findAll()

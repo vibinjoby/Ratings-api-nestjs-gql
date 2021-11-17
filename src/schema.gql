@@ -80,6 +80,8 @@ type Mutation {
   updateRestaurant(updateRestaurantInput: UpdateRestaurantInput!): Restaurant!
   removeRestaurant(id: Int!): Restaurant!
   createReview(createReviewInput: CreateReviewInput!): Review!
+  createOwnerReply(reviewId: Int!, ownerReply: String!): Review!
+  getRestaurantWithReview(restaurantId: Int!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
 }
