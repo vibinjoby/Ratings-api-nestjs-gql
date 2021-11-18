@@ -31,7 +31,7 @@ export class RestaurantService {
   }
 
   findRestaurantsByUserId(userId: number): Promise<Restaurant[]> {
-    return this.restaurantRepository.find({ where: { userId } })
+    return this.restaurantRepository.find({ where: { userId }, relations: ['reviews'] })
   }
 
   update(id: number, updateRestaurantInput: UpdateRestaurantInput): Promise<UpdateResult> {
