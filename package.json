@@ -1,6 +1,6 @@
 {
   "name": "ratings-api-gql",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Backend repository for the Ratings-app",
   "author": "Vibin Joby <vibin2joby@gmail.com>",
   "license": "MIT",
