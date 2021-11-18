@@ -44,6 +44,12 @@ export class RestaurantResolver {
   }
 
   @UseGuards(GqlAuthGuard)
+  @Query(() => [Restaurant], { name: 'getOwnedrestaurants' })
+  findOwnerRestaurants(@CurrentUser() user: User) {
+    return this.restaurantService.findRestaurantsByUserId(user.id)
+  }
+
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Restaurant)
   updateRestaurant(@Args('updateRestaurantInput') updateRestaurantInput: UpdateRestaurantInput) {
     return this.restaurantService.update(updateRestaurantInput.id, updateRestaurantInput)

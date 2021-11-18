@@ -107,6 +107,7 @@ type Query {
     last: Float
   ): RestaurantResponse!
   getRestaurant(id: Int!): Restaurant!
+  getOwnedrestaurants: [Restaurant!]!
   review(id: Int!): Review!
 }
 
