@@ -32,11 +32,11 @@ export class ReviewService {
   }
 
   findAll(): Promise<Review[]> {
-    return this.reviewRepository.find()
+    return this.reviewRepository.find({ relations: ['restaurant', 'user'] })
   }
 
   findOne(id: number): Promise<Review> {
-    return this.reviewRepository.findOne(id)
+    return this.reviewRepository.findOne(id, { relations: ['restaurant', 'user'] })
   }
 
   update(id: number, updateReviewInput: UpdateReviewInput): Promise<UpdateResult> {

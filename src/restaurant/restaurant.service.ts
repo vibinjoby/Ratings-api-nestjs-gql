@@ -23,11 +23,11 @@ export class RestaurantService {
   }
 
   findAll(limit: number, offset: number): Promise<[Restaurant[], number]> {
-    return this.restaurantRepository.findAndCount({ take: limit, skip: offset })
+    return this.restaurantRepository.findAndCount({ take: limit, skip: offset, relations: ['reviews'] })
   }
 
   findOne(id: number): Promise<Restaurant> {
-    return this.restaurantRepository.findOne(id)
+    return this.restaurantRepository.findOne(id, { relations: ['reviews'] })
   }
 
   findRestaurantsByUserId(userId: number): Promise<Restaurant[]> {
