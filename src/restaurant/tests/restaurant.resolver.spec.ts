@@ -35,10 +35,6 @@ describe('RestaurantResolver', () => {
     expect(resolver.createRestaurant(MOCK_RESTAURANT, MOCK_USER)).toEqual(MOCK_RESTAURANT)
   })
 
-  it('should find all restaurants', () => {
-    expect(resolver.findAll()).toEqual([{ ...MOCK_RESTAURANT }])
-  })
-
   it('should find one restaurant', () => {
     expect(resolver.findOne(100)).toEqual({ ...MOCK_RESTAURANT, id: 100 })
   })

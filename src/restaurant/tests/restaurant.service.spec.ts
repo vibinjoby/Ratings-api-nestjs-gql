@@ -34,10 +34,6 @@ describe('RestaurantService', () => {
     })
   })
 
-  it('should find all restaurants', () => {
-    expect(service.findAll()).toEqual([{ ...MOCK_RESTAURANT }])
-  })
-
   it('should find one restaurant', () => {
     expect(service.findOne(100)).toEqual({ ...MOCK_RESTAURANT, id: 100 })
   })

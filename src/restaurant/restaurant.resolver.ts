@@ -1,5 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
 import { UseGuards } from '@nestjs/common'
+import { connectionFromArraySlice } from 'graphql-relay'
 
 import { RestaurantService } from './restaurant.service'
 import { Restaurant } from './entities/restaurant.entity'
@@ -10,6 +11,8 @@ import { CurrentUser } from '../auth/current-user.decorator'
 import { User } from '../user/entities/user.entity'
 import { Roles } from '../auth/roles.decorator'
 import { Role } from '../auth/roles.enum'
+import RestaurantResponse from './entities/RestaurantResponse'
+import ConnectionArgs from '../pagination/connection.args'
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
@@ -25,13 +28,17 @@ export class RestaurantResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Query(() => [Restaurant], { name: 'restaurant' })
-  findAll() {
-    return this.restaurantService.findAll()
+  @Query(() => RestaurantResponse, { name: 'getRestaurants' })
+  async findAll(@Args() args: ConnectionArgs) {
+    const { limit, offset } = args.pagingParams()
+    const [restaurants, count] = await this.restaurantService.findAll(limit, offset)
+    const page = connectionFromArraySlice(restaurants, args, { arrayLength: count, sliceStart: offset || 0 })
+
+    return { page, pageData: { count, limit, offset } }
   }
 
   @UseGuards(GqlAuthGuard)
-  @Query(() => Restaurant, { name: 'restaurant' })
+  @Query(() => Restaurant, { name: 'getRestaurant' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.restaurantService.findOne(id)
   }

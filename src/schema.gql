@@ -61,11 +61,52 @@ type LoginOutput {
   token: String!
 }
 
+type PageData {
+  count: Float!
+  limit: Float!
+  offset: Float!
+}
+
+type RestaurantResponse {
+  page: RestaurantConnection!
+  pageData: PageData
+}
+
+type RestaurantConnection {
+  edges: [RestaurantEdge!]
+  pageInfo: RestaurantPageInfo
+}
+
+type RestaurantEdge {
+  cursor: String
+  node: Restaurant
+}
+
+type RestaurantPageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type Query {
   users: [User!]!
   user(id: Float!): User!
   whoAmI: User!
-  restaurant(id: Int!): Restaurant!
+  getRestaurants(
+    """Paginate before opaque cursor"""
+    before: String
+
+    """Paginate after opaque cursor"""
+    after: String
+
+    """Paginate first"""
+    first: Float
+
+    """Paginate last"""
+    last: Float
+  ): RestaurantResponse!
+  getRestaurant(id: Int!): Restaurant!
   review(id: Int!): Review!
 }
 
@@ -81,7 +122,7 @@ type Mutation {
   removeRestaurant(id: Int!): Restaurant!
   createReview(createReviewInput: CreateReviewInput!): Review!
   createOwnerReply(reviewId: Int!, ownerReply: String!): Review!
-  getRestaurantWithReview(restaurantId: Int!): Review!
+  findReviewsByRestaurantId(restaurantId: Int!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
 }

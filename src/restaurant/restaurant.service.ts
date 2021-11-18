@@ -22,8 +22,8 @@ export class RestaurantService {
     return this.restaurantRepository.save(newRestaurant)
   }
 
-  findAll(): Promise<Restaurant[]> {
-    return this.restaurantRepository.find()
+  findAll(limit: number, offset: number): Promise<[Restaurant[], number]> {
+    return this.restaurantRepository.findAndCount({ take: limit, skip: offset })
   }
 
   findOne(id: number): Promise<Restaurant> {

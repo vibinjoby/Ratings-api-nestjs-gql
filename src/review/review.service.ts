@@ -25,7 +25,7 @@ export class ReviewService {
     return this.reviewRepository.save(review)
   }
 
-  getRestaurantWithReviewById = async (restaurantId: number): Promise<any> => {
+  findReviewsWithRestaurantId = async (restaurantId: number): Promise<any> => {
     const review = await this.reviewRepository.findOne({ where: [{ restaurantId }], relations: ['restaurant', 'user'] })
 
     return review
