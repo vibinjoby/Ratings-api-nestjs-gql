@@ -1,0 +1,35 @@
+name: code-check CI
+on:
+  push:
+    branches-ignore: [master]
+
+jobs:
+  build-and-publish:
+    name: build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+
+      - name: Lint
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: lint
+
+      - name: create env file
+        run: |
+          touch .env
+          echo JWT_TOKEN =${{ secrets.JWT_TOKEN }} >> .env
+
+      - name: Unit tests
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: test
+
+      - name: End to end tests
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: test:e2e
