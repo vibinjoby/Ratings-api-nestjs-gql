@@ -41,3 +41,6 @@ jobs:
 
       - name: End to end tests
         run: yarn test:e2e # e2e tests
+
+      - name: 'Automated Version Bump'
+        uses: 'phips28/gh-action-bump-version@master'
