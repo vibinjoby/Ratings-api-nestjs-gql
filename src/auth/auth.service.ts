@@ -17,6 +17,7 @@ export class AuthService {
     return this.jwtService.sign({
       name: isAdmin ? user.username : user.fullName,
       sub: user.id,
+      userType: user.userType ?? '',
       isAdmin,
     })
   }

@@ -53,7 +53,7 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer())
         .post(gql)
         .send({
-          query: `mutation {login(data:{email:"${OWNER_EMAIL}", password:"${OWNER_PASSWORD}"}){ token }}`,
+          query: `mutation {login(data:{email:"${OWNER_EMAIL}", password:"${OWNER_PASSWORD}",userType:owner}){ token }}`,
         })
         .expect(200)
         .expect(res => {
@@ -81,7 +81,7 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer())
         .post(gql)
         .send({
-          query: `mutation{login(data:{email:"${CUSTOMER_EMAIL}",password:"${CUSTOMER_PASSWORD}"}){token}}`,
+          query: `mutation{login(data:{email:"${CUSTOMER_EMAIL}",password:"${CUSTOMER_PASSWORD}",userType:customer}){token}}`,
         })
         .expect(200)
         .expect(res => {
