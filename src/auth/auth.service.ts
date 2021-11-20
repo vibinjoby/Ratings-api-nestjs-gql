@@ -21,12 +21,15 @@ export class AuthService {
     })
   }
 
-  async validateUser({ email, password }: LoginInput): Promise<LoginOutput> {
+  async validateUser({ email, password, userType }: LoginInput): Promise<LoginOutput> {
     const user = await this.userService.findOne(null, email)
     if (!user) {
       throw new UnauthorizedException('User not found')
     }
     if (await user.comparePassword(password)) {
+      if (user.userType !== userType) {
+        throw new UnauthorizedException(`${user.userType} cannot login as ${userType}`)
+      }
       const token = this.generateToken({ user, isAdmin: false })
       return { token }
     }
