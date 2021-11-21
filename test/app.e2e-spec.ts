@@ -37,16 +37,9 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer())
         .post(gql)
         .send({
-          query: `mutation {createUser(createUserInput: { email: "${OWNER_EMAIL}", password:"${OWNER_PASSWORD}",fullName:"${OWNER_FULL_NAME}",userType:owner}) { id fullName email}}`,
+          query: `mutation {createUser(createUserInput: { email: "${OWNER_EMAIL}", password:"${OWNER_PASSWORD}",fullName:"${OWNER_FULL_NAME}",userType:owner}) {token}}`,
         })
         .expect(200)
-        .expect(res => {
-          expect(res.body.data.createUser).toEqual({
-            id: res.body.data.createUser.id,
-            fullName: OWNER_FULL_NAME,
-            email: OWNER_EMAIL,
-          })
-        })
     })
 
     it('should login as a owner', () => {
@@ -65,16 +58,9 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer())
         .post(gql)
         .send({
-          query: `mutation {createUser(createUserInput: { email: "${CUSTOMER_EMAIL}", password:"${CUSTOMER_PASSWORD}",fullName:"${CUSTOMER_FULL_NAME}",userType:customer}) { id fullName email}}`,
+          query: `mutation {createUser(createUserInput: { email: "${CUSTOMER_EMAIL}", password:"${CUSTOMER_PASSWORD}",fullName:"${CUSTOMER_FULL_NAME}",userType:customer}) { token}}`,
         })
         .expect(200)
-        .expect(res => {
-          expect(res.body.data.createUser).toEqual({
-            id: res.body.data.createUser.id,
-            fullName: CUSTOMER_FULL_NAME,
-            email: CUSTOMER_EMAIL,
-          })
-        })
     })
 
     it('should login the newly created customer', () => {

@@ -17,9 +17,11 @@ import { Role } from '../auth/roles.enum'
 export class UserResolver {
   constructor(private readonly userService: UserService, private authService: AuthService) {}
 
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput)
+  @Mutation(() => LoginOutput)
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    const user = await this.userService.create(createUserInput)
+    const token = this.authService.generateToken({ user, isAdmin: false })
+    return { token }
   }
 
   @UseGuards(GqlAuthGuard)

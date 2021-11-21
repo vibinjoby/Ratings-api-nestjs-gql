@@ -112,7 +112,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  createUser(createUserInput: CreateUserInput!): LoginOutput!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): String!
   login(data: LoginInput!): LoginOutput!
