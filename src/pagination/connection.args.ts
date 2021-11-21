@@ -1,5 +1,5 @@
 import { ConnectionArguments, ConnectionCursor, fromGlobalId } from 'graphql-relay'
-import { Field, ArgsType, InputType } from '@nestjs/graphql'
+import { Field, ArgsType } from '@nestjs/graphql'
 
 type PagingMeta =
   | { pagingType: 'forward'; after?: string; first: number }
@@ -75,6 +75,12 @@ export default class ConnectionArgs implements ConnectionArguments {
 
   @Field({ nullable: true, description: 'Paginate last' })
   public last?: number
+
+  @Field({ nullable: true })
+  public limit?: number
+
+  @Field({ nullable: true })
+  public offset?: number
 
   pagingParams() {
     return getPagingParameters(this)

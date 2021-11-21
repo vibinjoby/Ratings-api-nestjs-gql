@@ -30,7 +30,8 @@ export class RestaurantResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => RestaurantResponse, { name: 'getRestaurants' })
   async findAll(@Args() args: ConnectionArgs) {
-    const { limit, offset } = args.pagingParams()
+    const { limit, offset } = args
+
     const [restaurants, count] = await this.restaurantService.findAll(limit, offset)
     const page = connectionFromArraySlice(restaurants, args, { arrayLength: count, sliceStart: offset || 0 })
 
