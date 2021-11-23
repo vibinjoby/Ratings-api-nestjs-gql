@@ -16,6 +16,8 @@
 
 This project was built with [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+Find the API documentation [here](https://ratings-nest-gql.herokuapp.com/api)
+
 ## Installation
 
 ```bash
