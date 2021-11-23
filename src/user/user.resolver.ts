@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
-import { UseGuards } from '@nestjs/common'
+import { Body, Delete, Get, Patch, UseGuards } from '@nestjs/common'
 
 import { UserService } from './user.service'
 import { User } from './entities/user.entity'
@@ -24,6 +24,9 @@ export class UserResolver {
     return { token }
   }
 
+  // Admin protected resolver
+  @Get()
+  @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
   findAll() {
@@ -37,10 +40,11 @@ export class UserResolver {
   }
 
   // Admin protected resolver
+  @Patch('updateUser')
   @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  updateUser(@Body() @Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update(updateUserInput.id, updateUserInput)
   }
 
@@ -48,6 +52,7 @@ export class UserResolver {
   @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
   @Mutation(() => String)
+  @Delete(':id')
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove(id)
   }
@@ -59,6 +64,7 @@ export class UserResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => User)
+  @Get('whoAmI')
   async whoAmI(@CurrentUser() user: User): Promise<User> {
     return user
   }

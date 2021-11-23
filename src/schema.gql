@@ -110,6 +110,7 @@ type Query {
   ): RestaurantResponse!
   getRestaurant(id: Int!): Restaurant!
   getOwnedrestaurants: [Restaurant!]!
+  findReviewsByRestaurantId(restaurantId: Int!): Review!
   review(id: Int!): Review!
 }
 
@@ -125,7 +126,6 @@ type Mutation {
   removeRestaurant(id: Int!): Restaurant!
   createReview(createReviewInput: CreateReviewInput!): Review!
   createOwnerReply(reviewId: Int!, ownerReply: String!): Review!
-  findReviewsByRestaurantId(restaurantId: Int!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
 }

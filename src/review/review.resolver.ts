@@ -28,7 +28,7 @@ export class ReviewResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Review)
+  @Query(() => Review)
   findReviewsByRestaurantId(@Args('restaurantId', { type: () => Int }) restaurantId: number) {
     return this.reviewService.findReviewsWithRestaurantId(restaurantId)
   }

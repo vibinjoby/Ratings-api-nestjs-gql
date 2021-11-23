@@ -16,12 +16,14 @@ export class GqlAuthGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    let request = null
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ])
-    const req = this.getRequest(context)
-    const authHeader = req.headers.authorization as string
+    request = context.switchToHttp().getRequest()
+    if (!request) request = this.getRequest(context)
+    const authHeader = request?.headers?.authorization as string
 
     if (!authHeader) {
       throw new BadRequestException('Authorization header not found.')
@@ -38,7 +40,7 @@ export class GqlAuthGuard implements CanActivate {
     }
 
     if (isValid) {
-      req.user = user
+      request.user = user
       return true
     }
     throw new UnauthorizedException('Token not valid')
