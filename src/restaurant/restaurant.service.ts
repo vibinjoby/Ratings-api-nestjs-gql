@@ -23,15 +23,19 @@ export class RestaurantService {
   }
 
   findAll(limit: number, offset: number): Promise<[Restaurant[], number]> {
-    return this.restaurantRepository.findAndCount({ take: limit, skip: offset, relations: ['reviews'] })
+    return this.restaurantRepository.findAndCount({
+      take: limit,
+      skip: offset,
+      relations: ['reviews', 'reviews.user', 'user'],
+    })
   }
 
   findOne(id: number): Promise<Restaurant> {
-    return this.restaurantRepository.findOne(id, { relations: ['reviews'] })
+    return this.restaurantRepository.findOne(id, { relations: ['reviews', 'reviews.user', 'user'] })
   }
 
   findRestaurantsByUserId(userId: number): Promise<Restaurant[]> {
-    return this.restaurantRepository.find({ where: { userId }, relations: ['reviews'] })
+    return this.restaurantRepository.find({ where: { userId }, relations: ['reviews', 'reviews.user', 'user'] })
   }
 
   update(id: number, updateRestaurantInput: UpdateRestaurantInput): Promise<UpdateResult> {
