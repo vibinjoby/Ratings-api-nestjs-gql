@@ -1,7 +1,7 @@
 name: code-check CI
 on:
   push:
-    branches-ignore: [master]
+    branches: [master]
 
 jobs:
   build-and-publish:
