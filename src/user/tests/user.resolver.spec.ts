@@ -51,6 +51,6 @@ describe('UserResolver', () => {
       resolver.createUser({
         ...MOCK_USER_DATA,
       })
-    ).toEqual(new Promise(() => {}))
+    ).toEqual(new Promise(() => ({})))
   })
 })
