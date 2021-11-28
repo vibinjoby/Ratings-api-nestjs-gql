@@ -20,6 +20,7 @@ describe('AdminResolver', () => {
           provide: AuthService,
           useFactory: () => ({
             validateAdmin: () => new Promise(() => ({ token: 'TOKEN' })),
+            generateToken: () => '',
           }),
         },
       ],

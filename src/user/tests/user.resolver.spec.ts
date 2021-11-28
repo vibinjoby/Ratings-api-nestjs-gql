@@ -18,7 +18,7 @@ describe('UserResolver', () => {
         },
         {
           provide: AuthService,
-          useFactory: () => ({ validateUser: () => ({}) }),
+          useFactory: () => ({ validateUser: () => ({}), generateToken: () => '' }),
         },
       ],
     }).compile()
@@ -51,9 +51,6 @@ describe('UserResolver', () => {
       resolver.createUser({
         ...MOCK_USER_DATA,
       })
-    ).toEqual({
-      id: 10,
-      ...MOCK_USER_DATA,
-    })
+    ).toEqual(new Promise(() => {}))
   })
 })

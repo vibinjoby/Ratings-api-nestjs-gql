@@ -18,7 +18,7 @@ describe('ReviewResolver', () => {
         },
         {
           provide: AuthService,
-          useFactory: () => ({}),
+          useFactory: () => ({ validateUser: () => ({}), generateToken: () => '' }),
         },
       ],
     }).compile()

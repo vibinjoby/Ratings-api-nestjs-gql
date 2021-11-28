@@ -19,7 +19,7 @@ describe('RestaurantResolver', () => {
         },
         {
           provide: AuthService,
-          useFactory: () => ({}),
+          useFactory: () => ({ generateToken: () => '' }),
         },
       ],
     }).compile()
