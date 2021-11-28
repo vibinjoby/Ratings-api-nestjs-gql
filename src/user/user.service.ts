@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DeleteResult, Repository } from 'typeorm'
 
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
@@ -15,7 +15,9 @@ export class UserService {
   }
 
   findAll(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['restaurants', 'reviews'] })
+    return this.userRepository.find({
+      relations: ['restaurants', 'reviews', 'restaurants.reviews', 'reviews.restaurant'],
+    })
   }
 
   async findOne(id?: number, email?: string): Promise<User> {
@@ -26,7 +28,7 @@ export class UserService {
         },
         { email },
       ],
-      relations: ['restaurants', 'reviews'],
+      relations: ['restaurants', 'reviews', 'restaurants.reviews', 'reviews.restaurant'],
     })
     if (!user) throw new NotFoundException(`No user with id ${id} found`)
     return user
@@ -38,15 +40,7 @@ export class UserService {
     return updatedUser
   }
 
-  async remove(id: number): Promise<string> {
-    const user = await this.userRepository.findOne(id)
-
-    if (!user) {
-      return 'User not available'
-    }
-    if (await this.userRepository.delete(id)) {
-      return 'User deleted successfully'
-    }
-    return 'User not deleted'
+  remove(id: number): Promise<DeleteResult> {
+    return this.userRepository.delete(id)
   }
 }

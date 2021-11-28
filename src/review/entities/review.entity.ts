@@ -47,11 +47,11 @@ export class Review {
   @Column()
   restaurantId: number
 
-  @ManyToOne(() => User, user => user.reviews)
+  @ManyToOne(() => User, user => user.reviews, { onDelete: 'CASCADE' })
   @Field(() => User)
   user: User
 
-  @ManyToOne(() => Restaurant, restaurant => restaurant.reviews)
+  @ManyToOne(() => Restaurant, restaurant => restaurant.reviews, { onDelete: 'CASCADE' })
   @Field(() => Restaurant)
   restaurant: Restaurant
 }

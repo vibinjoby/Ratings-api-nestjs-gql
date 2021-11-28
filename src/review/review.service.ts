@@ -26,17 +26,45 @@ export class ReviewService {
   }
 
   findReviewsWithRestaurantId = async (restaurantId: number): Promise<any> => {
-    const review = await this.reviewRepository.findOne({ where: [{ restaurantId }], relations: ['restaurant', 'user'] })
+    const review = await this.reviewRepository.findOne({
+      where: [{ restaurantId }],
+      relations: [
+        'restaurant',
+        'user',
+        'restaurant.reviews',
+        'restaurant.reviews.user',
+        'user.restaurants',
+        'user.reviews',
+      ],
+    })
 
     return review
   }
 
   findAll(): Promise<Review[]> {
-    return this.reviewRepository.find({ relations: ['restaurant', 'user'] })
+    return this.reviewRepository.find({
+      relations: [
+        'restaurant',
+        'user',
+        'restaurant.reviews',
+        'restaurant.reviews.user',
+        'user.restaurants',
+        'user.reviews',
+      ],
+    })
   }
 
   findOne(id: number): Promise<Review> {
-    return this.reviewRepository.findOne(id, { relations: ['restaurant', 'user'] })
+    return this.reviewRepository.findOne(id, {
+      relations: [
+        'restaurant',
+        'user',
+        'restaurant.reviews',
+        'restaurant.reviews.user',
+        'user.restaurants',
+        'user.reviews',
+      ],
+    })
   }
 
   update(id: number, updateReviewInput: UpdateReviewInput): Promise<UpdateResult> {

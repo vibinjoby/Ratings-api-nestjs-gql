@@ -8,6 +8,7 @@ import { Review } from '../../review/entities/review.entity'
 export enum UserType {
   owner = 'owner',
   customer = 'customer',
+  admin = 'admin',
 }
 
 registerEnumType(UserType, {
@@ -37,12 +38,14 @@ export class User {
   @Field(() => UserType)
   userType: UserType
 
-  @OneToMany(() => Restaurant, restaurant => restaurant.user)
+  @OneToMany(() => Restaurant, restaurant => restaurant.user, { onDelete: 'CASCADE' })
   @Field(() => [Restaurant], { nullable: true })
   @JoinColumn()
   restaurants?: Restaurant[]
 
-  @OneToMany(() => Review, review => review.user)
+  @OneToMany(() => Review, review => review.user, {
+    onDelete: 'CASCADE',
+  })
   @Field(() => [Review], { nullable: true })
   @JoinColumn()
   reviews?: Review[]

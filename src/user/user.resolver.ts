@@ -51,10 +51,11 @@ export class UserResolver {
   // Admin protected resolver
   @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   @Delete(':id')
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id)
+  async removeUser(@Args('id', { type: () => Int }) id: number) {
+    const result = await this.userService.remove(id)
+    return result.affected ?? false
   }
 
   @Mutation(() => LoginOutput)

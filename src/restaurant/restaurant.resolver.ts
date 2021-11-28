@@ -58,8 +58,9 @@ export class RestaurantResolver {
 
   @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Restaurant)
-  removeRestaurant(@Args('id', { type: () => Int }) id: number) {
-    return this.restaurantService.remove(id)
+  @Mutation(() => Boolean)
+  async removeRestaurant(@Args('id', { type: () => Int }) id: number) {
+    const result = await this.restaurantService.remove(id)
+    return result.affected ?? false
   }
 }

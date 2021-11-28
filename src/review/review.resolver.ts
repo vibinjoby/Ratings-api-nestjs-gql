@@ -54,8 +54,9 @@ export class ReviewResolver {
 
   @Roles(Role.Admin)
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Review)
-  removeReview(@Args('id', { type: () => Int }) id: number) {
-    return this.reviewService.remove(id)
+  @Mutation(() => Boolean)
+  async removeReview(@Args('id', { type: () => Int }) id: number) {
+    const result = await this.reviewService.remove(id)
+    return result.affected ?? false
   }
 }

@@ -43,11 +43,11 @@ export class Restaurant {
   @Field(() => Int)
   userId: number
 
-  @ManyToOne(() => User, user => user.restaurants)
+  @ManyToOne(() => User, user => user.restaurants, { onDelete: 'CASCADE' })
   @Field(() => User)
   user: User
 
-  @OneToMany(() => Review, review => review.user)
+  @OneToMany(() => Review, review => review.restaurant, { onDelete: 'CASCADE' })
   @Field(() => [Review], { nullable: true })
   @JoinColumn()
   reviews?: Review[]
