@@ -1,5 +1,4 @@
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
-import { IsDateString } from 'class-validator'
 
 import { CreateReviewInput } from './create-review.input'
 
@@ -12,7 +11,6 @@ export class UpdateReviewInput extends PartialType(CreateReviewInput) {
   ratings: number
 
   @Field()
-  @IsDateString()
   visitDate: Date
 
   @Field()

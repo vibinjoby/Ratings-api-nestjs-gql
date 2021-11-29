@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository, UpdateResult } from 'typeorm'
+import { DeleteResult, Repository } from 'typeorm'
 
 import { CreateReviewInput } from './dto/create-review.input'
 import { UpdateReviewInput } from './dto/update-review.input'
@@ -67,8 +67,9 @@ export class ReviewService {
     })
   }
 
-  update(id: number, updateReviewInput: UpdateReviewInput): Promise<UpdateResult> {
-    return this.reviewRepository.update(id, updateReviewInput)
+  async update(id: number, updateReviewInput: UpdateReviewInput): Promise<Partial<Review>> {
+    await this.reviewRepository.update(id, updateReviewInput)
+    return await this.reviewRepository.findOne({ id })
   }
 
   remove(id: number): Promise<DeleteResult> {

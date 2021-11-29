@@ -36,8 +36,7 @@ export class UserService {
 
   async update(id: number, updateUserInput: UpdateUserInput): Promise<User> {
     await this.userRepository.update(id, updateUserInput)
-    const updatedUser = await this.userRepository.findOne(id)
-    return updatedUser
+    return await this.userRepository.findOne(id)
   }
 
   remove(id: number): Promise<DeleteResult> {

@@ -38,8 +38,9 @@ export class RestaurantService {
     return this.restaurantRepository.find({ where: { userId }, relations: ['reviews', 'reviews.user', 'user'] })
   }
 
-  update(id: number, updateRestaurantInput: UpdateRestaurantInput): Promise<UpdateResult> {
-    return this.restaurantRepository.update(id, updateRestaurantInput)
+  async update(id: number, updateRestaurantInput: UpdateRestaurantInput): Promise<Partial<Restaurant>> {
+    await this.restaurantRepository.update(id, updateRestaurantInput)
+    return await this.restaurantRepository.findOne({ id })
   }
 
   remove(id: number): Promise<DeleteResult> {
