@@ -15,4 +15,7 @@ export class UpdateReviewInput extends PartialType(CreateReviewInput) {
 
   @Field()
   comments: string
+
+  @Field()
+  ownerReply: string
 }

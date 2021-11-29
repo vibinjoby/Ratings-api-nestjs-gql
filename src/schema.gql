@@ -183,4 +183,5 @@ input UpdateReviewInput {
   comments: String!
   restaurantId: Int
   id: Int!
+  ownerReply: String!
 }
