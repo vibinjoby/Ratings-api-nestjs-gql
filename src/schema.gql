@@ -111,7 +111,7 @@ type Query {
   ): RestaurantResponse!
   getRestaurant(id: Int!): Restaurant!
   getOwnedrestaurants: [Restaurant!]!
-  findReviewsByRestaurantId(restaurantId: Int!): Review!
+  findReviewsByRestaurantId(restaurantId: Int!): [Review!]!
   review(id: Int!): Review!
 }
 
