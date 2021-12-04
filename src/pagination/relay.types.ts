@@ -2,8 +2,6 @@ import * as Relay from 'graphql-relay'
 import { ObjectType, Field } from '@nestjs/graphql'
 import { Type } from '@nestjs/common'
 
-import PageData from './page-data'
-
 const typeMap = {}
 export default function relayTypes<T>(type: Type<T>): any {
   const { name } = type
@@ -35,26 +33,15 @@ export default function relayTypes<T>(type: Type<T>): any {
     public hasNextPage!: boolean
   }
 
-  @ObjectType(`${name}Connection`, { isAbstract: true })
-  class Connection implements Relay.Connection<T> {
-    public name = `${name}Connection`
+  @ObjectType(`${name}Page`, { isAbstract: true })
+  abstract class Page {
+    public name = `${name}Page`
 
     @Field(() => [Edge], { nullable: true })
     public edges!: Relay.Edge<T>[]
 
     @Field(() => PageInfo, { nullable: true })
     public pageInfo!: Relay.PageInfo
-  }
-
-  @ObjectType(`${name}Page`, { isAbstract: true })
-  abstract class Page {
-    public name = `${name}Page`
-
-    @Field(() => Connection)
-    public page!: Connection
-
-    @Field(() => PageData, { nullable: true })
-    public pageData!: PageData
   }
 
   typeMap[`${name}`] = Page

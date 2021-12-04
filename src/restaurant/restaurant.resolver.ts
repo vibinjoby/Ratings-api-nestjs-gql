@@ -33,9 +33,12 @@ export class RestaurantResolver {
     const { limit, offset } = args
 
     const [restaurants, count] = await this.restaurantService.findAll(limit, offset)
-    const page = connectionFromArraySlice(restaurants, args, { arrayLength: count, sliceStart: offset || 0 })
+    const { edges, pageInfo } = connectionFromArraySlice(restaurants, args, {
+      arrayLength: count,
+      sliceStart: offset || 0,
+    })
 
-    return { page, pageData: { count, limit, offset } }
+    return { edges, pageInfo }
   }
 
   @UseGuards(GqlAuthGuard)
