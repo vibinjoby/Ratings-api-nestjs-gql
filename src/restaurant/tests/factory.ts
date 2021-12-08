@@ -45,4 +45,5 @@ export const MOCK_RESTAURANT: Restaurant = {
   createdAt: new Date(),
   userId: 1,
   user: MOCK_USER,
+  reviewsCount: 0,
 }

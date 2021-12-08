@@ -40,6 +40,7 @@ export class RestaurantService {
       .leftJoin(Review, 'review', 'review.restaurantId = restaurant.id')
       .select('restaurant.restaurantName', 'restaurantName')
       .addSelect('coalesce(AVG(ratings),0)', 'averageRatings')
+      .addSelect('count(ratings)', 'reviewsCount')
       .addSelect('restaurant.id', 'id')
       .addSelect('restaurant.address', 'address')
       .addSelect('restaurant.contactNumber', 'contactNumber')

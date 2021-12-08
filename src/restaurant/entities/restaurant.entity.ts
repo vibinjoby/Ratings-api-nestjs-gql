@@ -57,4 +57,7 @@ export class Restaurant {
 
   @Field(() => [Review], { nullable: true })
   highestRatedReviews?: Review[]
+
+  @Field(() => Int)
+  reviewsCount: number
 }
