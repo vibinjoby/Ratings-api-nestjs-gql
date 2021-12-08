@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeleteResult, Repository } from 'typeorm'
+import _ = require('lodash')
 
 import { CreateRestaurantInput } from './dto/create-restaurant.input'
 import { UpdateRestaurantInput } from './dto/update-restaurant.input'
@@ -58,8 +59,10 @@ export class RestaurantService {
       .from(Review, 'review')
       .select('coalesce(AVG(ratings),0)', 'averageRatings')
       .getRawOne()
+    const highestRatedReviews = _.orderBy(result.reviews, ['ratings'], ['desc']).slice(0, 3)
+    const lowestRatedReviews = _.orderBy(result.reviews, ['ratings'], ['asc']).slice(0, 3)
 
-    return { ...result, ...averageRatings }
+    return { ...result, ...averageRatings, lowestRatedReviews, highestRatedReviews }
   }
 
   async findRestaurantsByUserId(userId: number): Promise<Restaurant[]> {

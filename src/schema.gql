@@ -32,6 +32,8 @@ type Restaurant {
   userId: Int!
   user: User!
   reviews: [Review!]
+  lowestRatedReviews: [Review!]
+  highestRatedReviews: [Review!]
 }
 
 type User {

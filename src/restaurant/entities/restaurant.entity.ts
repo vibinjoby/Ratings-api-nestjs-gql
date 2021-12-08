@@ -51,4 +51,10 @@ export class Restaurant {
   @Field(() => [Review], { nullable: true })
   @JoinColumn()
   reviews?: Review[]
+
+  @Field(() => [Review], { nullable: true })
+  lowestRatedReviews?: Review[]
+
+  @Field(() => [Review], { nullable: true })
+  highestRatedReviews?: Review[]
 }
