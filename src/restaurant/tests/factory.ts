@@ -33,6 +33,7 @@ export const RestaurantRepositoryFactory = () => ({
     ...MOCK_RESTAURANT,
     id: 100,
   }),
+  createQueryBuilder: () => ({ ...MOCK_RESTAURANT, id: 100 }),
 })
 
 export const MOCK_RESTAURANT: Restaurant = {
